@@ -1,0 +1,2 @@
+["10000"]:["John"]:["randompassword1"]:["ICS4U_-1"]:["IT4F_80"] 
+["10001"]:["Mary"]:["randompassword2"]:["ICS4U_90"]:["IT4F_100"]:["ENG4U_75"]

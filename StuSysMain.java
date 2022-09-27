@@ -23,21 +23,29 @@ public class StuSysMain {
       System.out.println("3. Exit System");
       System.out.println("Pick an option");
 
-      
+      do{
       if (option == 1){
          // * Option1: New Student Screen
          // TODO:  Print create account form and prompt user line by line
+        
+        
          System.out.println("-------------------");
          System.out.println("| CREATE ACCOUNT  |");
          System.out.println("-------------------");
+         
          System.out.print("Student ID     : " + id);
          id = input.nextInt();
+        
          System.out.print("Full Name      : " + name);
          name = input.nextLine();
+         
+         while( pw1 != pw2) {
          System.out.print("Password       : " + pw1);
          pw1 = input.nextInt();
+        
          System.out.print("Retype Password: " + pw2);
          pw2 = input.nextInt();
+         
          if ( pw1 == pw2 ) {
             System.out.printf("\nSuccesfully created account '%5d' ", id);
          }
@@ -45,16 +53,26 @@ public class StuSysMain {
             System.out.println("Retype password: "+ pw2);
             pw2 = input.nextInt();
          }
-         
+      }
 
       } else if (option == 2) {
          // * Option 2: Returning Screen
          // TODO: Print Login Option and promt user line by line. 
+         int id;
+         int pw;
+
+
          System.out.println("---------------------");
+         System.out.println("|   LOGIN SCREEN    |");
+         System.out.println("---------------------");
+        
+         
          System.out.print("Student ID   : "+ id);
          id= input.nextInt();
-         System.out.print("Passowrd     : "+ pw);
+        
+         System.out.print("Password     : "+ pw);
          pw= input.nextInt();
+         
          System.out.println("Login Success");
 
          System.out.println("====================================================================");
@@ -75,17 +93,18 @@ public class StuSysMain {
          // TODO: Change exit to true
          exit = true ;
 
-         System.out.println("System is shutting down.")
+         System.out.println("System is shutting down.");
 
-      } else{  // if enter wrong number
+      } else {  // if enter wrong number
+         System.out.println("Invalid input , please enter a valid option");
 
       }
-
+      
 
     
 
 
-
+   }
       while (exit == false) {
 
 

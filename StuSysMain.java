@@ -1,4 +1,16 @@
 import java.util.Scanner;
+ 
+// NEXT TASK
+// TODO: Error Handling for integer more than 3. There's 2 parts to this task. 
+/**
+ * 1. Print error message (look at line 94)
+ * 2. Add a loop to reprompt users if invalid input is given. 
+ *    Program should keep prompting UNTIL
+ *       (a) a VALID input is given OR 
+ *       (b) if they choose to exit
+ * 
+ */
+
 
 public class StuSysMain {
    public static void main(String[] args) {
@@ -41,9 +53,9 @@ public class StuSysMain {
          if ( pw1 == pw2 ) {
             System.out.printf("\nSuccesfully created account '%5d' ", id);
          }
-         else {
+         else {   // ! Users may type the wrong password more than once. Add a while loop. Alternatively, allow users to retype both password (pw1 and pw2)
             System.out.println("Retype password: "+ pw2);
-            pw2 = input.nextInt();
+            pw2 = input.nextInt();  
          }
          
 
@@ -53,7 +65,7 @@ public class StuSysMain {
          System.out.println("---------------------");
          System.out.print("Student ID   : "+ id);
          id= input.nextInt();
-         System.out.print("Passowrd     : "+ pw);
+         System.out.print("Passowrd     : "+ pw);  // ! Variable not initialised. 
          pw= input.nextInt();
          System.out.println("Login Success");
 
@@ -75,9 +87,12 @@ public class StuSysMain {
          // TODO: Change exit to true
          exit = true ;
 
-         System.out.println("System is shutting down.")
+         System.out.println("System is shutting down.")  // ! WHERES YOUR SEMICOLON!!!!!!!
 
       } else{  // if enter wrong number
+         // * ERROR HANDLING FOR INVALID INPUT
+         // TODO: Print error message (eg. Invalid input. Pls enter a valid option) 
+
 
       }
 

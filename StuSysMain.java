@@ -8,8 +8,10 @@ public class StuSysMain {
       boolean exit = false; // Sentinel value to control loop
       Scanner input = new Scanner(System.in);
       int option = -1;
-      int id,pw1,pw2;
+      int id;
       String name;
+      int pw1;
+      int pw2;
 
 
       // * MAIN SCREEN
@@ -30,6 +32,9 @@ public class StuSysMain {
         
         
          System.out.println("-------------------");
+
+
+         
          System.out.println("| CREATE ACCOUNT  |");
          System.out.println("-------------------");
          
@@ -57,7 +62,7 @@ public class StuSysMain {
 
       } else if (option == 2) {
          // * Option 2: Returning Screen
-         // TODO: Print Login Option and promt user line by line. 
+         // TODO: Print Login Option and prompt user line by line. 
          int id;
          int pw;
 
@@ -105,7 +110,7 @@ public class StuSysMain {
 
 
    }
-      while (exit == false) {
+      while (exit == false); {
 
 
 

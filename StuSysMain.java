@@ -6,78 +6,40 @@ public class StuSysMain {
       public static void main(String[] args) {
             stuSys = new StuSys();
             stuSys.ImportAcct("AcctInfo.txt");
-      
 
-            boolean exit = false; // Sentinel value to control loop
             Scanner input = new Scanner(System.in);
             int option = -1;
-          
 
-            // * MAIN SCREEN
-            // TODO: Print and prompt (either new, returning or exit)
-            System.out.println("==================================================");
-            System.out.println("|        WELCOME TO CIMP STUDENT SYSTEM          |");
-            System.out.println("==================================================");
-            System.out.println("1. New Student");
-            System.out.println("2. Returning Student");
-            System.out.println("3. Exit System");
-            System.out.print("Pick an option: ");
-            option = input.nextInt();
+            do {
+                  // * MAIN SCREEN
+                  // TODO: Print and prompt (either new, returning or exit)
+                  System.out.println("==================================================");
+                  System.out.println("|        WELCOME TO CIMP STUDENT SYSTEM          |");
+                  System.out.println("==================================================");
+                  System.out.println("1. New Student");
+                  System.out.println("2. Returning Student");
+                  System.out.println("3. Exit System");
+                  System.out.print("Pick an option: ");
+                  option = input.nextInt();
+
+                  if (option > 3 || option < 1 ){
+                        System.out.println("Invalid option. Please enter a valid option.\n");
+                  }
+            } while (option > 3 || option < 1);
 
             if (option == 1) {
                   CreateAccount();
             }
 
-            // else if (option == 2) {
-            // // * Option 2: Returning Screen
-            // // TODO: Print Login Option and prompt user line by line.
+            else if (option == 2) {
+                  Login();
 
-            // int pw;
+            } else if (option == 3) {
+                  // * Option 3: Exit
+                  System.out.println("System is shutting down.");
 
-            // System.out.println("---------------------");
-            // System.out.println("| LOGIN SCREEN |");
-            // System.out.println("---------------------");
-
-            // System.out.print("Student ID : ");
-            // id = input.nextInt();
-
-            // System.out.print("Password : ");
-            // pw = input.nextInt();
-
-            // System.out.println("Login Success");
-
-            // System.out.println(
-            // "====================================================================");
-            // System.out.println("| CIMP STUDENT SYSTEM |");
-            // System.out.println("| OPTION SCREEN |");
-            // System.out.println(
-            // "|==================================================================|");
-            // System.out.println("| 1. STUDENT DETAIL | 4. EDIT COURSE GRADE |");
-            // System.out.println(
-            // "|------------------------------------------------------------------|");
-            // System.out.println("| 2. ADD COURSES | 5. CHANGE PASSWORD |");
-            // System.out.println(
-            // "|------------------------------------------------------------------|");
-            // System.out.println("| 3. DROP COURSES | 6. LOGOUT |");
-            // System.out.println(
-            // "|===================================================================");
-            // System.out.println("Pick an option: ");
-
-            // }// else if (option == 3) {
-            // // // * Option 3: Exit
-            // // // TODO: Change exit to true
-            // // exit = true;
-
-            // // System.out.println("System is shutting down."); // ! WHERES YOUR
-            // SEMICOLON!!!!!!!
-
-            // // } else { // if enter wrong number
-            // // // * ERROR HANDLING FOR INVALID INPUT
-            // // // Print error message (eg. Invalid input. Pls enter a valid option)
-            // // System.out.println("Invalid input, please enter a valid option");
-            // // }
-            input.close();;
-
+            } 
+            input.close();
       }
 
       public static void CreateAccount() {
@@ -94,20 +56,19 @@ public class StuSysMain {
             System.out.println("-------------------");
 
             boolean valid_id;
-            do{         
+            do {
                   System.out.print("Student ID     : ");
                   id = input.nextLine();
-                  if (id.length() != 5){
+                  if (id.length() != 5) {
                         System.out.println("Invalid Student ID. Please enter a 5 digit student ID.\n");
                         valid_id = false;
-                  }else{      // ID is valid (has 5 digits)
-                        valid_id = true;    
+                  } else { // ID is valid (has 5 digits)
+                        valid_id = true;
                   }
-            } while(valid_id == false);
+            } while (valid_id == false);
 
             System.out.print("Full Name      : ");
             name = input.nextLine();
-
 
             int status;
             do {
@@ -117,20 +78,61 @@ public class StuSysMain {
                   System.out.print("Retype Password: ");
                   pw2 = input.nextLine();
 
-                  status = stuSys.CreateNewAcct(id, name, pw1 , pw2 );
+                  status = stuSys.CreateNewAcct(id, name, pw1, pw2);
 
-                  if (status == 1){ //  if account is created successfully
+                  if (status == 1) { // if account is created successfully
                         System.out.println("Succesfully created account '" + id + "'");
-                  } else if (status == -3){     // if password and retype password don't match
+                  } else if (status == -3) { // if password and retype password don't match
                         System.out.println("\nPasswords don't match. Please retype. ");
-                  } else if (status == -4){     //  if number of accounts have reached its limit
+                  } else if (status == -4) { // if number of accounts have reached its limit
                         System.out.println("\nFailed to create account. Number of accounts have reached its limit.");
-                  } else if (status == -7){     //  if password is not 5 characters.
-                        System.out.println("\nInvalid Password. Please make sure your password contains exactly 5 characters.");
+                  } else if (status == -7) { // if password is not 5 characters.
+                        System.out.println(
+                                    "\nInvalid Password. Please make sure your password contains exactly 5 characters.");
                   }
 
             } while (status == -3 || status == -7);
-      
+
+            input.close();
+      }
+
+      private static void Login() {
+            // * Option 2: Returning Screen
+            // TODO: Print Login Option and prompt user line by line.
+
+            Scanner input = new Scanner(System.in);
+
+            int pw;
+
+            System.out.println("---------------------");
+            System.out.println("| LOGIN SCREEN |");
+            System.out.println("---------------------");
+
+            System.out.print("Student ID : ");
+            int id = input.nextInt();
+
+            System.out.print("Password : ");
+            pw = input.nextInt();
+
+            System.out.println("Login Success");
+
+            System.out.println(
+                        "====================================================================");
+            System.out.println("| CIMP STUDENT SYSTEM |");
+            System.out.println("| OPTION SCREEN |");
+            System.out.println(
+                        "|==================================================================|");
+            System.out.println("| 1. STUDENT DETAIL | 4. EDIT COURSE GRADE |");
+            System.out.println(
+                        "|------------------------------------------------------------------|");
+            System.out.println("| 2. ADD COURSES | 5. CHANGE PASSWORD |");
+            System.out.println(
+                        "|------------------------------------------------------------------|");
+            System.out.println("| 3. DROP COURSES | 6. LOGOUT |");
+            System.out.println(
+                        "|===================================================================");
+            System.out.println("Pick an option: ");
+
             input.close();
       }
 }

@@ -25,7 +25,7 @@ public class StuSysMain {
       System.out.println("3. Exit System");
       System.out.println("Pick an option");
 
-      do{
+    
       if (option == 1){
          // * Option1: New Student Screen
          // TODO:  Print create account form and prompt user line by line
@@ -54,9 +54,9 @@ public class StuSysMain {
          if ( pw1 == pw2 ) {
             System.out.printf("\nSuccesfully created account '%5d' ", id);
          }
-         else {
+         else {   // ! Users may type the wrong password more than once. Add a while loop. Alternatively, allow users to retype both password (pw1 and pw2)
             System.out.println("Retype password: "+ pw2);
-            pw2 = input.nextInt();
+            pw2 = input.nextInt();  
          }
       }
 
@@ -75,7 +75,7 @@ public class StuSysMain {
          System.out.print("Student ID   : "+ id);
          id= input.nextInt();
         
-         System.out.print("Password     : "+ pw);
+         System.out.print("Passowrd     : "+ pw);  // ! Variable not initialised. 
          pw= input.nextInt();
          
          System.out.println("Login Success");
@@ -98,12 +98,15 @@ public class StuSysMain {
          // TODO: Change exit to true
          exit = true ;
 
-         System.out.println("System is shutting down.");
+         System.out.println("System is shutting down.") ; // ! WHERES YOUR SEMICOLON!!!!!!!
 
-      } else {  // if enter wrong number
-         System.out.println("Invalid input , please enter a valid option");
+      } else{  // if enter wrong number
+         // * ERROR HANDLING FOR INVALID INPUT
+         // TODO: Print error message (eg. Invalid input. Pls enter a valid option) 
+         System.out.println("Invalid input, please enter a valid option");
 
-      }
+
+      // }
       
 
     
@@ -124,6 +127,6 @@ public class StuSysMain {
 
       
 
-      
+   
    }
 }

@@ -12,7 +12,6 @@ public class StuSysMain {
 
             do {
                   // * MAIN SCREEN
-                  // TODO: Print and prompt (either new, returning or exit)
                   System.out.println("==================================================");
                   System.out.println("|        WELCOME TO CIMP STUDENT SYSTEM          |");
                   System.out.println("==================================================");
@@ -122,20 +121,27 @@ public class StuSysMain {
             }
 
             System.out.println("Login Success");
-            //do while loop, refer on top
+            // do while loop, refer on top
             int option;
-            System.out.println("====================================================================");
-            System.out.println("|                     CIMP STUDENT SYSTEM                          |");
-            System.out.println("|                         OPTION SCREEN                            |");
-            System.out.println("|==================================================================|");
-            System.out.println("|         1. STUDENT DETAIL     |      4. EDIT COURSE GRADE        |");
-            System.out.println("|------------------------------------------------------------------|");
-            System.out.println("|         2. ADD COURSES        |      5. CHANGE PASSWORD          |");
-            System.out.println("|------------------------------------------------------------------|");
-            System.out.println("|         3. DROP COURSES       |      6. LOGOUT                   |");
-            System.out.println("|===================================================================");
-            System.out.println("Pick an option: ");
-            option = input.nextInt();
+            do {
+
+                  System.out.println("====================================================================");
+                  System.out.println("|                     CIMP STUDENT SYSTEM                          |");
+                  System.out.println("|                         OPTION SCREEN                            |");
+                  System.out.println("|==================================================================|");
+                  System.out.println("|         1. STUDENT DETAIL     |      4. EDIT COURSE GRADE        |");
+                  System.out.println("|------------------------------------------------------------------|");
+                  System.out.println("|         2. ADD COURSES        |      5. CHANGE PASSWORD          |");
+                  System.out.println("|------------------------------------------------------------------|");
+                  System.out.println("|         3. DROP COURSES       |      6. LOGOUT                   |");
+                  System.out.println("|===================================================================");
+                  System.out.println("Pick an option: ");
+                  option = input.nextInt();
+
+                  if (option > 6 || option < 1) {
+                        System.out.println("Invalid option. Please enter a valid option.");
+                  }
+            } while (option > 6 || option < 1);
 
             if (option == 1) {
                   // stuSys.DisplayDatabase();
@@ -150,11 +156,10 @@ public class StuSysMain {
                   ChangePassword();
             } else if (option == 6) {
                   Logout();
-            } else {
+            } 
 
-            }
-
-            input.close();
+            
+             input.close();
       }
 
       private static void StudentDetail() {
@@ -162,16 +167,14 @@ public class StuSysMain {
             String student_name = stuSys.GetStudentName(id);
             Double gpa = stuSys.GetGPA(id);
 
-
             System.out.println("----------------------------------------------------------------");
             System.out.println("|                       STUDENT DETAIL                         |");
             System.out.println("----------------------------------------------------------------");
 
-            System.out.printf("|" + "Student ID       :%45s", id+ "   |");
-            System.out.printf("\n|" + "Student name     :%45s", student_name+ "   |");
-            System.out.printf("\n|" + "GPA              :%45s", gpa+ " % |");
+            System.out.printf("|" + "Student ID       :%45s", id + "   |");
+            System.out.printf("\n|" + "Student name     :%45s", student_name + "   |");
+            System.out.printf("\n|" + "GPA              :%45s", gpa + " % |");
             System.out.println("\n----------------------------------------------------------------");
-
 
             System.out.println("\n\n|--------------------------------------------------------------|");
             System.out.println("|           COURSES            |           Grades              |");
@@ -184,33 +187,33 @@ public class StuSysMain {
                   int course_grade = stuSys.GetCourseGradeAt(id, i);
 
                   if (course_grade >= 0) {
-                        System.out.printf("| " + current_index + " " + course_name  + 
-                        "                       |  %30s ",  String.valueOf(course_grade)  + " |");
+                        System.out.printf("| " + current_index + " " + course_name +
+                                    "                       |  %30s ", String.valueOf(course_grade) + " |");
                         current_index++;
                         System.out.println("\n----------------------------------------------------------------");
                   }
-                
+
             }
 
       }
 
-      private static void AddCourses(){
+      private static void AddCourses() {
 
       }
 
-      private static void DropCourses(){
-
-      }
-      
-      private static void EditCourses(){
+      private static void DropCourses() {
 
       }
 
-      private static void  ChangePassword(){
+      private static void EditCourses() {
 
       }
 
-      private static void Logout(){
-            
+      private static void ChangePassword() {
+
+      }
+
+      private static void Logout() {
+
       }
 }

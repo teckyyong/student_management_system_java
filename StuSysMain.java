@@ -122,7 +122,7 @@ public class StuSysMain {
             }
 
             System.out.println("Login Success");
-
+            //do while loop, refer on top
             int option;
             System.out.println("====================================================================");
             System.out.println("|                     CIMP STUDENT SYSTEM                          |");
@@ -141,15 +141,15 @@ public class StuSysMain {
                   // stuSys.DisplayDatabase();
                   StudentDetail();
             } else if (option == 2) {
-
+                  AddCourses();
             } else if (option == 3) {
-
+                  DropCourses();
             } else if (option == 4) {
-
+                  EditCourses();
             } else if (option == 5) {
-
+                  ChangePassword();
             } else if (option == 6) {
-
+                  Logout();
             } else {
 
             }
@@ -163,9 +163,17 @@ public class StuSysMain {
             Double gpa = stuSys.GetGPA(id);
 
 
-            System.out.println(String.valueOf(gpa));
+            System.out.println("----------------------------------------------------------------");
+            System.out.println("|                       STUDENT DETAIL                         |");
+            System.out.println("----------------------------------------------------------------");
 
-            System.out.println("|==============================================================|");
+            System.out.printf("|" + "Student ID       :%45s", id+ "   |");
+            System.out.printf("\n|" + "Student name     :%45s", student_name+ "   |");
+            System.out.printf("\n|" + "GPA              :%45s", gpa+ " % |");
+            System.out.println("\n----------------------------------------------------------------");
+
+
+            System.out.println("\n\n|--------------------------------------------------------------|");
             System.out.println("|           COURSES            |           Grades              |");
             System.out.println("|--------------------------------------------------------------|");
 
@@ -176,11 +184,33 @@ public class StuSysMain {
                   int course_grade = stuSys.GetCourseGradeAt(id, i);
 
                   if (course_grade >= 0) {
-                        System.out.println("| " + current_index + " " + course_name  + "   |    "+ String.valueOf(course_grade)  +" |");
+                        System.out.printf("| " + current_index + " " + course_name  + 
+                        "                       |  %30s ",  String.valueOf(course_grade)  + " |");
                         current_index++;
+                        System.out.println("\n----------------------------------------------------------------");
                   }
                 
             }
 
+      }
+
+      private static void AddCourses(){
+
+      }
+
+      private static void DropCourses(){
+
+      }
+      
+      private static void EditCourses(){
+
+      }
+
+      private static void  ChangePassword(){
+
+      }
+
+      private static void Logout(){
+            
       }
 }

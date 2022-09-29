@@ -1,0 +1,27 @@
+
+
+
+
+10005:Joan DiNardo:33333:MDM4U_74:MHF4U_86:ENG4U_99:MCV4U_88:SBI4U_50:AMU4M_-2
+['10002','Joan DiNardo','33333','MDM4U_74','MHF4U_86','ENG4U_99','MCV4U_88','SBI4U_50','AMU4M_-2'],
+
+[
+
+    ['10000','Joan DiNardo','33333','MDM4U_74','MHF4U_86','ENG4U_99','MCV4U_88','SBI4U_50','AMU4M_-2'],
+    ['10001','Joan DiNardo','33333','MDM4U_74','MHF4U_86','ENG4U_99','MCV4U_88','SBI4U_50','AMU4M_-2'],
+    ['10002','Joan DiNardo','33333','MDM4U_74','MHF4U_86','ENG4U_99','MCV4U_88','SBI4U_50','AMU4M_-2'],
+
+]
+
+
+
+
+
+
+
+
+
+
+ ICS4U_-1:IT4F_80
+
+['ICS4U_-1', 'IT4F_80']

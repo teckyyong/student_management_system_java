@@ -1,3 +1,5 @@
+import javax.lang.model.element.Name;
+
 public class StuSys {
    // Instance Variables (DO NOT MODIFY)
    private Database db;
@@ -9,8 +11,8 @@ public class StuSys {
 
    // ========== CONSTRUCTOR ==========//
    public StuSys() {
-      db = new Database(200);
-      currNewId = 0;
+      db = new Database();
+      currNewId = 10000;
    }
 
    // ========= PRIVATE METHOD =========//
@@ -48,22 +50,19 @@ public class StuSys {
     * Returns -4, if number of accounts have reached its limit
     * Returns -7, if password is not 5 characters.
     */
-   public int CreateNewAcct(String id, String name, String pass, String retypePass) {
+   public int CreateNewAcct(String name, String pass, String retypePass) {
       if (pass.equals(retypePass) == false) { // if password and retype password don't match
          return -3;
       } else if (pass.length() != 5) { // if password is not 5 characters.
          return -7;
       }
 
-      boolean is_exist = db.IsAcctExist(id); // true or false
-      if (is_exist == false) { // is_exist returns false when student ID is not found
+      boolean is_successful = db.AddAcct(Integer.toString(currNewId), name, pass); // true or false
+      if (is_successful == true) { // if the account is created successful
          currNewId++;
-         boolean is_successful = db.AddAcct(Integer.toString(currNewId), name, pass); // true or false
-         if (is_successful == true) { // if the account is created successful
-            return 1;
-         } else if (is_successful == false) { // the database has reached max account
-            return -4;
-         }
+         return 1;
+      } else if (is_successful == false) { // the database has reached max account
+         return -4;
       }
 
       return 0;
@@ -82,12 +81,19 @@ public class StuSys {
     * Returns -2, if password associated with the ID is not correct.
     */
    public int Login(String id, String pass) {
-      return 0; // Dummy return value. Needs to be changed.
+      if (db.IsAcctExist(id) == false) {
+         return -1;
+      } else if (db.GetAcctPass(id) == null || db.GetAcctPass(id).equals(pass) == false) {
+         return -2;
+      } else { // succesfully login
+         loginUserId = id;
+         return 1;
+      }
    }
 
    /* Logout the currently logged in student from the system. */
    public void Logout() {
-
+      loginUserId = null;
    }
 
    /*
@@ -100,7 +106,12 @@ public class StuSys {
     * Returns null if the ID is not found.
     */
    public String GetStudentName(String id) {
-      return null; // Dummy return value. Needs to be changed.
+      String name = db.GetAcctName(id);
+      if (name == null) { // account name / id not found
+         return null;
+      } else { // Returns the account name, if it is found.
+         return name;
+      }
    }
 
    /*
@@ -112,7 +123,13 @@ public class StuSys {
     * Returns -1, if account ID not found in the database.
     */
    public int NumCourse(String id) {
-      return 0; // Dummy return value. Needs to be changed.
+      if (db.IsAcctExist(id) == false) { // if account ID not found in the database.
+         return -1;
+      }
+      String courses = db.GetAllCourseInfo(id); // ICS4U_-1:IT4F_80
+      String[] courses_array = courses.split(":"); // ['ICS4U_-1', 'IT4F_80']
+
+      return courses_array.length;
    }
 
    /*
@@ -127,7 +144,20 @@ public class StuSys {
     * Returns null if account ID not found or course pos is out of range.
     */
    public String GetCourseNameAt(String id, int pos) {
-      return null; // Dummy return value. Needs to be changed.
+      if (db.IsAcctExist(id) == false) {
+         return null;
+      }
+      String courses = db.GetAllCourseInfo(id); // ICS4U_-1:IT4F_80
+      String[] courses_array = courses.split(":"); // ['ICS4U_-1', 'IT4F_80']
+      if (pos >= courses_array.length) { // if pos specified is beyond the range of number of courses
+         return null;
+      }
+
+      String[] course = courses_array[pos].split("_"); // ['ICS4u', -1]
+      String course_name = course[Database.ARRAY_COURSE_NAME_POS];
+
+      return course_name;
+
    }
 
    /*
@@ -143,7 +173,20 @@ public class StuSys {
     * Returns -5, if pos specified is beyond the range of number of courses
     */
    public int GetCourseGradeAt(String id, int pos) {
-      return 0; // Dummy return value. Needs to be changed.
+      if (db.IsAcctExist(id) == false) {
+         return -1;
+      }
+      String courses = db.GetAllCourseInfo(id); // ICS4U_-1:IT4F_80
+      String[] courses_array = courses.split(":"); // ['ICS4U_-1', 'IT4F_80']
+      if (pos >= courses_array.length) { // if pos specified is beyond the range of number of courses
+         return -5;
+      }
+
+      String[] course = courses_array[pos].split("_"); // ['ICS4u', -1]
+    
+      int grade = Integer.parseInt(course[Database.ARRAY_COURSE_GRADE_POS]);
+  
+      return grade;
    }
 
    /*
@@ -155,7 +198,26 @@ public class StuSys {
     * Returns -1, if account ID not found in the database.
     */
    public double GetGPA(String id) {
-      return 0; // Dummy return value. Needs to be changed.
+      String courses = db.GetAllCourseInfo(id); // ICS4U_-1:IT4F_80
+      String[] courses_array = courses.split(":"); // ['ICS4U_-1', 'IT4F_80']
+
+      int[] grade_array = new int[courses_array.length];
+      int total_mark = 0;
+      int num_of_subject = 0;
+      for (int i = 0; i < courses_array.length; i++) {
+         grade_array[i] = this.GetCourseGradeAt(id, i);
+
+         if (grade_array[i] >= 0) {
+
+            total_mark += grade_array[i];
+            num_of_subject++;
+         }
+
+      }
+
+      double gpa = (total_mark / num_of_subject);
+
+      return gpa;
    }
 
    /*

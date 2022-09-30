@@ -156,10 +156,9 @@ public class StuSysMain {
                   ChangePassword();
             } else if (option == 6) {
                   Logout();
-            } 
+            }
 
-            
-             input.close();
+            input.close();
       }
 
       private static void StudentDetail() {
@@ -185,23 +184,56 @@ public class StuSysMain {
             for (int i = 0; i < num_of_course; i++) {
                   String course_name = stuSys.GetCourseNameAt(id, i);
                   int course_grade = stuSys.GetCourseGradeAt(id, i);
+                  // int grade = course_grade;
 
                   if (course_grade >= 0) {
+                        // if(grade.equals(-1)) = "TBD";
+                        // else if(grade.equals(-2))= "DROPPED";
                         System.out.printf("| " + current_index + " " + course_name +
                                     "                       |  %30s ", String.valueOf(course_grade) + " |");
                         current_index++;
                         System.out.println("\n----------------------------------------------------------------");
                   }
+                  // if(course_grade == -1) {
 
+                  // } System.out.printf("| " + current_index + " " + course_name +
+                  // " | %30s ", "TBD |");
+                  // current_index++;
+                  // System.out.println("\n----------------------------------------------------------------");
             }
 
       }
 
       private static void AddCourses() {
+            Scanner input = new Scanner(System.in);
 
+            String id = stuSys.loginUserId;
+            String newCourse;
+            
+
+            System.out.println("-----------------------------------");
+            System.out.println("|            ADD COURSES          |");
+            System.out.println("-----------------------------------");
+            System.out.print("Course to add: ");
+            input.nextLine();
+            newCourse = input.nextLine();
+            // System.out.print("\nSuccessfully added " + "'" + "'");
+           
+            boolean status = stuSys.AddCourse(id, newCourse); // for adding a new course
+           
+            if (status) System.out.println("Successfully added " + "'" + newCourse + "'");
+             else System.out.println("ID is not found");
+      
+
+            input.close();
       }
 
       private static void DropCourses() {
+            
+            System.out.println("-----------------------------------");
+            System.out.println("             DROP COURSES          ");
+            System.out.println("-----------------------------------");
+
 
       }
 
@@ -210,7 +242,9 @@ public class StuSysMain {
       }
 
       private static void ChangePassword() {
-
+            System.out.println("-----------------------------------");
+            System.out.println("           CHANGE PASSWORD         ");
+            System.out.println("-----------------------------------");
       }
 
       private static void Logout() {

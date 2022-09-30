@@ -223,13 +223,21 @@ public class StuSys {
     * 
     * @param id - The account that the course will be added to
     * 
-    * @param courseName - The String that contains the cours name.
+    * @param courseName - The String that contains the course name.
     * 
     * @return - Returns TRUE if successful added the course
     * Returns FALSE if ID is not found.
     */
    public boolean AddCourse(String id, String courseName) {
-      return true; // Dummy return value. Needs to be changed.
+      boolean result=db.AddCourse(id, courseName);
+      int pos = NumCourse(id);  //total course
+      
+   if(result){
+      result=db.UpdateCourseGradeAt( id, pos-1,-1);
+      if(result)return true; //if successfully added course
+   }
+ 
+      return false; // if failed to add course
    }
 
    /*
@@ -245,7 +253,12 @@ public class StuSys {
     * Returns -5, if pos specified is beyond the range of number of courses.
     */
    public int DropCourse(String id, int pos) {
-      return 0; // Dummy return value. Needs to be changed.
+      if(pos> NumCourse(id)) return -5; //Pos Specified is beyond the range of number of courses
+
+      boolean result= db.UpdateCourseGradeAt(id, pos-1, -2);
+
+      if(result)return 1; // if course is successfully deleted
+      return -1; //Account id is not found in the database
    }
 
    /*
@@ -264,6 +277,8 @@ public class StuSys {
     * Returns -6, if grade is not valid (not between 1-100)
     */
    public int EditCourse(String id, int pos, int grade) {
+     
+
       return 0; // Dummy return value. Needs to be changed.
    }
 

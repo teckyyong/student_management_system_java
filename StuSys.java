@@ -121,13 +121,13 @@ public class StuSys {
     * Returns -1, if account ID not found in the database.
     */
    public int NumCourse(String id) {
-      if (db.IsAcctExist(id) == false) { // if account ID not found in the database.
+      String courses = db.GetAllCourseInfo(id); // Get all courses from db in string format
+      if (courses == null) { // if there's no courses or if ID doesn't exist
          return -1;
       }
-      String courses = db.GetAllCourseInfo(id); // ICS4U_-1:IT4F_80
-      String[] courses_array = courses.split(":"); // ['ICS4U_-1', 'IT4F_80']
 
-      return courses_array.length;
+      String[] courses_array = courses.split(":"); // split the courses into array 
+      return courses_array.length;  // get the length of the array
    }
 
    /*
@@ -145,13 +145,13 @@ public class StuSys {
       if (db.IsAcctExist(id) == false) {
          return null;
       }
-      String courses = db.GetAllCourseInfo(id); // ICS4U_-1:IT4F_80
-      String[] courses_array = courses.split(":"); // ['ICS4U_-1', 'IT4F_80']
+      String courses = db.GetAllCourseInfo(id); // Get all courses from db in string format
+      String[] courses_array = courses.split(":"); // split the courses into array 
       if (pos >= courses_array.length) { // if pos specified is beyond the range of number of courses
          return null;
       }
 
-      String[] course = courses_array[pos].split("_"); // ['ICS4u', -1]
+      String[] course = courses_array[pos].split("_"); // split the course into array containing name at position 0 and grade at position 1
       String course_name = course[Database.ARRAY_COURSE_NAME_POS];
 
       return course_name;
@@ -174,16 +174,16 @@ public class StuSys {
       if (db.IsAcctExist(id) == false) {
          return -1;
       }
-      String courses = db.GetAllCourseInfo(id); // ICS4U_-1:IT4F_80
-      String[] courses_array = courses.split(":"); // ['ICS4U_-1', 'IT4F_80']
+      String courses = db.GetAllCourseInfo(id); /// Get all courses from db in string format
+      String[] courses_array = courses.split(":"); // split the courses into array 
       if (pos >= courses_array.length) { // if pos specified is beyond the range of number of courses
          return -5;
       }
 
-      String[] course = courses_array[pos].split("_"); // ['ICS4u', -1]
-    
+      String[] course = courses_array[pos].split("_");  // split the course into array containing name at position 0 and grade at position 1
+
       int grade = Integer.parseInt(course[Database.ARRAY_COURSE_GRADE_POS]);
-  
+
       return grade;
    }
 
@@ -196,26 +196,33 @@ public class StuSys {
     * Returns -1, if account ID not found in the database.
     */
    public double GetGPA(String id) {
-      String courses = db.GetAllCourseInfo(id); // ICS4U_-1:IT4F_80
-      String[] courses_array = courses.split(":"); // ['ICS4U_-1', 'IT4F_80']
+      String courses = db.GetAllCourseInfo(id); // Get all courses from db in string format
+
+      if (courses == null) { // if there's no courses or if ID doesn't exist
+         return -1;
+      }
+
+      String[] courses_array = courses.split(":");  // split the courses into array 
 
       int[] grade_array = new int[courses_array.length];
       int total_mark = 0;
       int num_of_subject = 0;
-      for (int i = 0; i < courses_array.length; i++) {
-         grade_array[i] = this.GetCourseGradeAt(id, i);
+      for (int i = 0; i < courses_array.length; i++) {   // for each course in courses_array
+         grade_array[i] = this.GetCourseGradeAt(id, i);  // get the grade of the course
 
-         if (grade_array[i] >= 0) {
-
-            total_mark += grade_array[i];
-            num_of_subject++;
+         if (grade_array[i] >= 0) { // if the grade is not -1 or -2
+            total_mark += grade_array[i]; // then include it in GPA calculation
+            num_of_subject++; // keep track of the number of subjects that are included in GPA calculation
          }
 
       }
 
-      double gpa = (total_mark / num_of_subject);
+      if (num_of_subject > 0) {  
+         return ((double) total_mark / num_of_subject);
+      } else {
+         return -1;
+      }
 
-      return gpa;
    }
 
    /*
@@ -229,14 +236,16 @@ public class StuSys {
     * Returns FALSE if ID is not found.
     */
    public boolean AddCourse(String id, String courseName) {
-      boolean result=db.AddCourse(id, courseName);
-      int pos = NumCourse(id);  //total course
-      
-   if(result){
-      result=db.UpdateCourseGradeAt( id, pos-1,-1);
-      if(result)return true; //if successfully added course
-   }
- 
+      boolean status = db.AddCourse(id, courseName);
+      int pos = NumCourse(id); // total number of courses
+
+      if (status) {
+         status = db.UpdateCourseGradeAt(id, pos - 1, -1);
+         if (status) {
+            return true; // if successfully added course
+         }
+      }
+
       return false; // if failed to add course
    }
 
@@ -253,12 +262,15 @@ public class StuSys {
     * Returns -5, if pos specified is beyond the range of number of courses.
     */
    public int DropCourse(String id, int pos) {
-      if(pos> NumCourse(id)) return -5; //Pos Specified is beyond the range of number of courses
+      if (pos >= NumCourse(id))
+         return -5; // Pos Specified is beyond the range of number of courses
 
-      boolean result= db.UpdateCourseGradeAt(id, pos-1, -2);
+      boolean status = db.UpdateCourseGradeAt(id, pos, -2);
 
-      if(result)return 1; // if course is successfully deleted
-      return -1; //Account id is not found in the database
+      if (status) {
+         return 1; // if course is successfully deleted
+      }
+      return -1; // Account id is not found in the database
    }
 
    /*
@@ -277,9 +289,19 @@ public class StuSys {
     * Returns -6, if grade is not valid (not between 1-100)
     */
    public int EditCourse(String id, int pos, int grade) {
-     
+      if (pos >= NumCourse(id))
+         return -5; // if pos specified is beyond the range of number of courses
+      else if (grade > 100 || grade < 1) { // if grade is not valid (not between 1-100)
+         return -6;
+      }
 
-      return 0; // Dummy return value. Needs to be changed.
+      boolean status = db.UpdateCourseGradeAt(id, pos, grade);
+
+      if (status) {
+         return 1; // if course is successfully deleted
+      }
+
+      return -1; // Account id is not found in the database
    }
 
    /*
@@ -296,7 +318,22 @@ public class StuSys {
     * Returns -7, if new password is not 5 characters.
     */
    public int ChangePassword(String id, String oldPass, String newPass, String retypePass) {
-      return 0; // Dummy return value. Needs to be changed.
+      String password = db.GetAcctPass(id);
+      if (password == null) {
+         return -1;
+      } else if (password.equals(oldPass) == false) {
+         return -2;
+      } else if (newPass.equals(retypePass) == false) {
+         return -3;
+      } else if (newPass.length() != 5) {
+         return -7;
+      } else {
+         boolean status = db.UpdateAcctPass(id, newPass);
+         if (status == true) {   // succesfully updated password
+            return 1;
+         }
+         return -1;
+      }
    }
 
    /*
